@@ -1,0 +1,126 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+      {% block title %}
+      <title>Pipo Store</title>
+      {% endblock %}
+      <link rel="icon" type="image/jpg" href="{% static 'images/icono.jpg' %}">
+      <meta charset="utf-8">
+      <!--importar bootstrap y js-->
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+      {% block script %}
+
+      {% endblock %}
+    </head>
+    <body style="background-color: aliceblue">
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark"><!--Inicio del Navbar    navbar-dark bg-dark (pone la barra en color negro)-->
+          <a class="navbar-brand align-justify" href="index.html">
+            <img src="{% static 'images/logo.jpg' %}" width="50" height="45" class="d-inline-block align-justify" alt="" loading="lazy">
+            PipoStore
+          </a><!--Titulo del Navbar-->
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item active"><!--Inicio de Boton Inicio-->
+                <a class="nav-link" href="index.html">Inicio <span class="sr-only">(current)</span></a>
+              </li><!--Fin boton de Inicio-->
+              <li class="nav-item dropdown"><!--Inicio de DropDown con las tarjetas-->
+                <a class="nav-link dropdown-toggle" href="#" id="DropTarjetas" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Tarjetas de Video
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="tarjetas.html">Tarjetas de Video Nvidia</a><!--Item 1 dropdown-->
+                  <a class="dropdown-item" href="amd.html">Tarjetas de Video AMD</a><!--Item 2 dropdown-->
+              </li><!--Fin del dropdown-->
+              
+            </ul>
+            <div class="navbar-nav">
+              <form class="form-inline my-2 my-lg-0"><!--Inicio cuadro Buscar-->
+                  <input class="form-control mr-sm-2" id="buscador" value="" type="search" placeholder="Buscar" aria-label="Search">
+                  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+              </form><!--Fin cuadro Buscar-->
+              <div>
+                  <li class="nav-item dropdown"><!--Inicio de DropDown login-->
+                      <a class="nav-link dropdown-toggle" href="#" id="DropInicioSesion" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Inicio Sesión
+                      </a>
+                      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="login.html">Iniciar Sesión</a><!--Item 1 dropdown-->
+                        <a class="dropdown-item" href="register.html">Registrarse</a><!--Item 2 dropdown-->
+                      </div>
+                    </li><!--Fin del dropdown-->
+              </div>
+            </div>
+            
+            
+          </div>
+      </nav><!--Fin del Navbar-->
+        <br><br>
+
+        <!--Contenido dinamico las otras paginas heredan todo, pero solo se cambia lo que esté dentro de los block-->
+        
+        {%  block tituloPagina %}
+        
+        {% endblock %}
+        <br><br>
+        {% block contenido %}
+        {% endblock %}
+
+        {% block listado %}
+
+        {% endblock %}
+
+
+
+
+
+        <br><br>
+        <!--Footer--> 
+        <br><br><br>
+        <br><br><br><br>
+        <footer class=" footer container-fluid bg-dark" id="footer">
+          <div class="row">
+            <div class="col-12 col-md-4">
+              <br>
+              <h3 class="page-header text-info"> Acerca de PipoStore</h3>
+              <p class="text-info">Nuestra misión es ofrecer un servicio seguro de compra online de tarjetas de video al mejor precio</p>
+              <h3 class="page-header text-info"> Contacto</h3>
+              <p class="text-info">Email: ventas@pipostore.cl</p>
+              <p class="text-info">Fono: 2 - 9324563</p>
+            </div>
+            <div class="col-12 col-md-3">
+              <br>
+              <h3 class="page-header text-info">Ubicación</h3>
+              <h5 class="text-info">CASA MATRIZ</h5>
+              <p class="text-info">Padre Mariano 356, Providencia, Metro Pedro de Valdivia</p>
+              <h5 class="text-info">Horario</h5>
+              <p class="text-info">Lunes a Viernes de 09:00 a 19:00 hrs</p>
+              <h5 class="text-info">TIENDA SANTIAGO</h5>
+              <p class="text-info">San Diego Nº 980</p>
+              <h5 class="text-info">Horario</h5>
+              <p class="text-info">Lunes a Viernes 10:00 a 18:30 Hrs.</p>
+              <p class="text-info">Sabados 11:00 a 15:00 Hrs.</p>
+            </div>
+            <div class="col-12 col-md-5">
+              <br>
+              <h3 class="page-header text-info">Compra de Forma Segura</h3>
+              <p class="text-info">En PipoStore usamos Secure Sockets Layer (SSL) para proteger la seguridad de toda la información que usted nos proporciona en línea.</p>
+              <h5 class="text-info">Medios de Pago</h5>
+              <img src="{% static 'images/webpay.jpg' %}"  class="col-12 col-md-10" height="140">
+            </div>
+          </div>
+          <br>
+        </footer>
+        <!--Fin del Footer-->
+
+      </div>
+    </body>
+</html>

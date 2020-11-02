@@ -1,0 +1,162 @@
+{% extends "plantillaBase.html" %}
+
+{% block title %}
+<title>Registro de Producto</title>
+{% endblock %}
+{% block script %}
+
+{% endblock %}
+{% block tituloPagina %}
+<div class="row justify-content-center">
+    <h1>Registro de Producto</h1>
+</div>
+{% endblock %}
+
+{% block contenido %}
+{% if mensaje %}
+	<div class="row justify-content-center">
+		<div class="col-12 col-sm-8">
+			<div class="alert alert-success" role="alert">
+			{{ mensaje }}
+			</div>
+		</div>
+	</div>
+{% endif %}
+	<form action="{% url 'producto' %}" method="POST">
+        {% csrf_token %}
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-2">
+                Id
+            </div>
+            <div class="col-8 col-md-4">
+                <input type="text" name="txtId" class="form-control" value="{{ item.id }}">
+            </div>
+            <div class="col-4 col-md-2">
+                <input type="submit" name="btnBuscar" class="btn btn-success btn-block" value="Buscar">
+            </div>
+        </div>
+		<div class="row justify-content-center">
+			<div class="col-12 col-sm-2">
+				marca
+			</div>
+			<div class="col-12 col-sm-6">
+				<select name="cmbMarca" class="form-control">
+                    <option value="0">Seleccionar</option>
+{% if cmbMarca %}
+    {% for fila in cmbMarca %}
+                    <option value="{{ fila.id }}">{{ fila.nombre }}</option>
+    {% endfor %}
+{% endif %}
+                </select>
+                {{ errores.cmbMarca }}
+			</div>
+		</div>
+		<div class="row justify-content-center">
+			<div class="col-12 col-sm-2">
+				Categoria
+			</div>
+			<div class="col-8 col-sm-6">
+				<select name="cmbCategoria" class="form-control">
+                    <option value="0">Seleccionar</option>
+{% if cmbCategoria %}
+    {% for fila in cmbCategoria %}
+                    <option value="{{ fila.id }}">{{ fila.nombre }}</option>
+    {% endfor %}
+{% endif %}
+                </select>
+			</div>
+        </div>
+        <div class="row justify-content-center">
+			<div class="col-12 col-sm-2">
+				Nombre
+			</div>
+			<div class="col-12 col-sm-6">
+				<input type="text" name="txtNombre" class="form-control" value="{{ item.nombre }}">
+			</div>
+		</div>
+		<div class="row justify-content-center">
+			<div class="col-12 col-sm-2">
+				Descripcion
+			</div>
+			<div class="col-12 col-sm-6">
+				<input type="text" name="txtDescripcion" class="form-control" value="{{ item.descripcion }}">
+			</div>
+		</div>
+
+		<div class="row justify-content-center">
+			<div class="col-12 col-sm-2">
+				Stock
+			</div>
+			<div class="col-12 col-sm-6">
+				<input type="text" name="txtStock" class="form-control" value="{{ item.stock }}">
+			</div>
+		</div>
+        <div class="row justify-content-center">
+			<div class="col-12 col-sm-2">
+				PrecioCosto
+			</div>
+			<div class="col-12 col-sm-6">
+				<input type="text" name="txtPrecioCosto" class="form-control" value="{{ item.precioCosto }}">
+			</div>
+        </div>
+        <div class="row justify-content-center">
+			<div class="col-12 col-sm-2">
+				PrecioVenta
+			</div>
+			<div class="col-12 col-sm-6">
+				<input type="text" name="txtPrecioVenta" class="form-control" value="{{ item.precioVenta }}">
+			</div>
+		</div>
+		<div class="row justify-content-center">
+			<div class="col-12 col-sm-2">
+				Opciones
+			</div>
+			<div class="col-12 col-sm-6">
+				<input type="submit" name="btnGrabar" class="btn btn-danger"  value="Grabar">
+				<input type="submit" name="btnListar" class="btn btn-success" value="Listar">
+{% if item.id > 0 %}
+				<input type="submit" name="btnEliminar" class="btn btn-danger float-right" value="Eliminar">
+{% endif %}
+			</div>
+		</div>		
+	</form>
+{% endblock %}
+<br>
+{% block listado %}
+{% if lista %}
+	<div class="row justify-content-center">
+		<div>
+			<div class="table-responsive">
+				<table class="table">
+					<thead class="table-active">
+						<th>#</th>
+						<th>Marca</th>
+						<th>Categoria</th>
+						<th>Nombre</th>
+						<th>Descripcion</th>
+						<th>Stock</th>
+						<th>PrecioCosto</th>
+						<th>PrecioVenta</th>
+					</thead>
+					<tbody>
+{% for fila in lista %}
+						<tr>
+							<td>{{ fila.id }}</td>
+							<td>{{ fila.marca }}</td>
+							<td>{{ fila.categoria }}</td>
+							<td>{{ fila.nombre }}</td>
+							<td>{{ fila.descripcion }}</td>
+							<td>{{ fila.stock }}</td>
+							<td>{{ fila.precioCosto }}</td>
+							<td>{{ fila.precioVenta }}</td>
+						</tr>	
+{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>	
+	</div>
+	
+	
+{% endif %}
+{% endblock %}
