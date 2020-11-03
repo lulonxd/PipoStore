@@ -22,7 +22,7 @@
 		</div>
 	</div>
 {% endif %}
-	<form action="{% url 'producto' %}" method="POST">
+	<form action="{% url 'producto' %}" method="POST" >
         {% csrf_token %}
         <div class="row justify-content-center">
             <div class="col-12 col-md-2">
@@ -105,6 +105,14 @@
 			</div>
 			<div class="col-12 col-sm-6">
 				<input type="text" name="txtPrecioVenta" class="form-control" value="{{ item.precioVenta }}">
+			</div>
+		</div>
+		<div class="row justify-content-center">
+			<div class="col-12 col-sm-2">
+				Imagen
+			</div>
+			<div class="col-12 col-sm-6">
+				<input type="file" name="imagen" class="form-control"  value="{{ item.imagen }}">
 			</div>
 		</div>
 		<div class="row justify-content-center">

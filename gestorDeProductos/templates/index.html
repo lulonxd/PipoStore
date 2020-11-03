@@ -1,0 +1,28 @@
+{% extends "plantillaBase.html" %}
+
+{%  block tituloPagina %}
+        
+{% endblock %}
+<br><br>
+{% block contenido %}
+<div class="row">
+    <div class="col-9">
+        <div class="row">
+            {% for producto in productos %}
+                <div class="col-md-4">
+                    <div class="card" style="width: 100%;">
+                        <img src="{{producto.imagen.url}}" style="width: 100%;" class="card-img-top" alt="{{producto.nombre}}"/>
+                        <p>Precio: {{ producto.precioVenta }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block listado %}
+
+{% endblock %}

@@ -1,9 +1,13 @@
 from django.shortcuts import render
 from gestorDeProductos.models import Marca, Categoria, Producto
+
 # Create your views here.
 
 def plantilla(request):
     return render(request, 'plantillaBase.html', {})
+
+def login(request):
+    return render(request, 'login.html', {})
 
 def marca(request):
     mensaje=""
@@ -99,36 +103,48 @@ def producto(request):
     cmbCategoria = Categoria.objects.all()
     errores	= {}
     if request.method == "POST":
-        id          = int("0" + request.POST["txtId"])
-        idMarca 	= int("0" + request.POST['cmbMarca'])
-        idCategoria = int("0" + request.POST['cmbCategoria'])
-        nombre 		= request.POST['txtNombre']
-        descripcion = request.POST['txtDescripcion']
-        stock 		= int("0" + request.POST['txtStock'])
-        precioCosto = int("0" + request.POST['txtPrecioCosto'])
-        precioVenta	= int("0" + request.POST['txtPrecioVenta'])
-        
-        if 'btnGrabar' in request.POST: # validar informacion
-            if idMarca < 1: # crear nuevo elemento
-                errores['cmbMarca'] = "Falta seleccionar marca"
-            else:
-                marca = Marca.objects.get(pk=idMarca)
-                categoria = Categoria.objects.get(pk=idCategoria)
-                Producto.objects.create(categoria=categoria, marca=marca, nombre=nombre,descripcion=descripcion,stock=stock,precioCosto=precioCosto,precioVenta=precioVenta)
-        elif 'btnListar' in request.POST: # como filtrar con el ORM
-            lista = Producto.objects.filter(nombre__contains = nombre)
-        elif 'btnBuscar' in request.POST:
-            item = Producto.objects.get(pk = id)
+            id          = int("0" + request.POST["txtId"])
+            idMarca 	= int("0" + request.POST['cmbMarca'])
+            idCategoria = int("0" + request.POST['cmbCategoria'])
+            nombre 		= request.POST['txtNombre']
+            descripcion = request.POST['txtDescripcion']
+            stock 		= int("0" + request.POST['txtStock'])
+            precioCosto = int("0" + request.POST['txtPrecioCosto'])
+            precioVenta	= int("0" + request.POST['txtPrecioVenta'])
+            imagen      = request.POST['imagen']
+            
+            if 'btnGrabar' in request.POST: # validar informacion
+                if idMarca < 1: # crear nuevo elemento
+                    errores['cmbMarca'] = "Falta seleccionar marca"
+                else:
+                    marca = Marca.objects.get(pk=idMarca)
+                    categoria = Categoria.objects.get(pk=idCategoria)
+                    Producto.objects.create(categoria=categoria, marca=marca, nombre=nombre,descripcion=descripcion,stock=stock,precioCosto=precioCosto,precioVenta=precioVenta, imagen=imagen)
+                
+            elif 'btnListar' in request.POST: # como filtrar con el ORM
+                lista = Producto.objects.filter(nombre__contains = nombre)
+            elif 'btnBuscar' in request.POST:
+                item = Producto.objects.get(pk = id)
 
-            if not isinstance(item, Producto):
-                mensaje = "Registro no encontrado"
-                item = {}
-        elif 'btnEliminar' in request.POST:
-            item = Producto.objects.get(pk = id)
+                if not isinstance(item, Producto):
+                    mensaje = "Registro no encontrado"
+                    item = {}
+            elif 'btnEliminar' in request.POST:
+                item = Producto.objects.get(pk = id)
 
-            if isinstance(item, Producto):
-                item.delete()
-                mensaje = "Registro eliminado"
-                item = {}
+                if isinstance(item, Producto):
+                    item.delete()
+                    mensaje = "Registro eliminado"
+                    item = {}
     context = {'mensaje' : mensaje, 'lista': lista, 'item': item, 'cmbMarca': cmbMarca, 'cmbCategoria': cmbCategoria, 'errores': errores}
     return render(request, 'producto.html', context)
+
+def index(request):
+    lista = {}
+    productos = Producto.objects.all()
+    return render(request, 'index.html', {"productos":productos})
+
+
+    
+
+

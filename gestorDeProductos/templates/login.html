@@ -1,0 +1,48 @@
+{# La herencia debe estar en la primera linea(los comentarios no se consideran como linea) #}
+{% extends "plantillaBase.html" %}
+
+      {% block title %}
+      <title>PipoStore - Ingreso de Usuario</title>
+      {% endblock %}
+        {% block tituloPagina %}
+        <div class="row justify-content-center">
+            <h2>Ingreso de Usuario</h2>
+        </div>
+        {% endblock %}
+        <br><br>
+        {% block contenido %}
+        <form action="{% url 'login' %}" method="POST">
+            {% csrf_token %}
+            <div class="form-row">
+                <label class="col-12 col-md-2 offset-md-2 col-lg-1 offset-lg-3">Email</label>
+                
+                <div class="col-12 col-md-6 col-lg-4">
+                    <input type="text" name="txtMail" placeholder="Ingrese su correo" class=" form-control" maxlength="30" required>
+                    
+                </div>
+            </div>
+            <br>
+            <div class="form-row">
+                <div class="col-12 col-md-2 offset-md-2 col-lg-1 offset-lg-3">Contraseña</div>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <input type="password" name="txtPass" placeholder="Ingrese su Contraseña" class="form-control" maxlength="20" required>
+                </div>
+            </div>
+            <br>
+            <div class="form-row">
+                <div class="col-12 col-md-4 offset-md-4">
+                    <button type="submit" class="btnEnviar btn btn-success ">Ingresar</button>
+                </div>
+            </div>
+            <br>
+            <div class="form-row col-12">
+            <div class="col-12 col-md-5 offset-md-4 text-left">¿No tienes cuenta? 
+                <a href="register.html" class="col-3 col-md-3">Registrarse</a>
+            </div>
+            </div>
+            <br>
+            <div class="form-row col-12">
+                <a href="resetpassword.html" class="col-12 col-md-4 offset-md-4 text-justify">¿Olvidaste tu Contraseña?</a>
+            </div>
+    </form>
+    {% endblock %}

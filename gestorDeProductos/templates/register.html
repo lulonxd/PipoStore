@@ -1,0 +1,93 @@
+{% extends "plantillaBase.html" %}
+
+{% block title %}
+<title>Registro de Usuario</title>
+{% endblock %}
+{% block script %}
+
+{% endblock %}
+{% block tituloPagina %}
+<div class="row justify-content-center">
+    <h2 >Registro de Usuario</h2>
+</div>
+{% endblock %}
+<br><br>
+{% block contenido %}
+<h3>Hola {{ nombre }}</h3><!--Estas llaves se utilizan para mostrar el context puesto en views-->
+<label>Sus numeros son: {{ valor1 }}, {{ valor2 }}</label>
+
+  <form action="{% url 'register' %}" method="POST">
+    {% csrf_token %}
+    <div class="row col-12 ">
+      <div class="col-12 col-md-2 offset-md-2 col-lg-1 offset-lg-3">Rut</div>
+      <div class="col-9 col-md-5 col-lg-3 ">
+          <input type="text" name="txtRut" placeholder="Ej: 111111111" class="txtRut form-control" maxlength="8">
+      </div>
+      <div class="col-3 col-md-1 col-lg-1">
+        <input type="text" name="txtDigito" placeholder="DV" class="txtDigito form-control" maxlength="1">
+      </div>
+    </div>
+    <br>
+    <div class="row col-12">
+        <div class="col-12 col-md-2 offset-md-2 col-lg-1 offset-lg-3">Email</div>
+        <div class="col-12 col-md-6 col-lg-4">
+            <input type="text" name="txtMail" placeholder="ejemplo@correo.com" class="txtMail form-control" maxlength="30">
+        </div>
+    </div>
+    <br>
+    <div class="row col-12">
+      <div class="col-12 col-md-2 offset-md-2 col-lg-1 offset-lg-3">Nombre</div>
+      <div class="col-12 col-md-6 col-lg-4">
+          <input type="text" name="txtNombre" placeholder="Ej: Joaquin" class="txtNombre form-control" maxlength="30"> 
+      </div>        
+    </div>
+    <br>
+    <div class="row col-12">
+      <div class="col-12 col-md-2 offset-md-2 col-lg-1 offset-lg-3">Apellidos</div>
+      <div class="col-12 col-md-6 col-lg-4">
+          <input type="text" name="txtApellido" placeholder="Ej: Tapia Jeria" class="txtApellido form-control" maxlength="30"> 
+      </div>        
+    </div>
+    <br>
+    <div class="row col-12">
+      <div class="col-12 col-md-2 offset-md-2 col-lg-1 offset-lg-3">Fecha de nac.</div>
+      <div class="col-12 col-md-6 col-lg-4">
+          <input type="date" name="txtFecha" class="txtFecha form-control" max="2000-12-31" min="1910-01-01">
+      </div>        
+    </div>
+    <br>
+    <div class="row col-12">
+      <div class="col-12 col-md-2 offset-md-2 col-lg-1 offset-lg-3">Teléfono</div>
+      <div class="col-12 col-md-6 col-lg-4">
+          <input type="text" name="txtTelefono" placeholder="Ej: 911111111" class="txtTelefono form-control" maxlength="9">
+      </div>        
+    </div>
+    <br>
+    <div class="row col-12">
+        <div class="col-12 col-md-2 offset-md-2 col-lg-1 offset-lg-3">Contraseña</div>
+        <div class="col-12 col-md-6 col-lg-4">
+            <input type="password" name="txtPass" class="txtPass form-control" maxlength="20">
+        </div>
+    </div>
+    <br>
+    <div class="row col-12">
+        <div class="col-12 col-md-2 offset-md-2 col-lg-1 offset-lg-3">Confirmar contraseña</div>
+        <div class="col-12 col-md-6 col-lg-4">
+            <input type="password" name="txtConfirmPass" class="txtConfirmPass form-control" maxlength="20">
+        </div>
+    </div>
+  
+    <br>
+    <div class="row col-12">
+        <div class="col-12 col-md-4 offset-md-4">
+            <button type="submit" class="btnEnviar btn btn-success" id="btnEnviar"> Registrarse</button>
+        </div>
+    </div>
+    <br>
+    <div class="row col-12">
+        <div class="col-12 col-md-4 offset-md-4">
+          ¿Ya tienes cuenta? <a href="login.html" class="col-3 col-md-3">Inicia sesión</a>
+        </div>
+    </div>
+</form>
+{% endblock %}
