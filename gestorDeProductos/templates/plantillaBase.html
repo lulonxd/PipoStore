@@ -18,8 +18,8 @@
     </head>
     <body style="background-color: aliceblue">
       <div class="container-fluid">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark"><!--Inicio del Navbar    navbar-dark bg-dark (pone la barra en color negro)-->
-          <a class="navbar-brand align-justify" href="index.html">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-top: auto;"><!--Inicio del Navbar    navbar-dark bg-dark (pone la barra en color negro)-->
+          <a class="navbar-brand align-justify" href="{% url 'inicio' %}">
             <img src="{% static 'images/logo.jpg' %}" width="50" height="45" class="d-inline-block align-justify" alt="" loading="lazy">
             PipoStore
           </a><!--Titulo del Navbar-->
@@ -30,35 +30,58 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
               <li class="nav-item active"><!--Inicio de Boton Inicio-->
-                <a class="nav-link" href="index.html">Inicio <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{% url 'inicio' %}">Inicio <span class="sr-only">(current)</span></a>
               </li><!--Fin boton de Inicio-->
               <li class="nav-item dropdown"><!--Inicio de DropDown con las tarjetas-->
                 <a class="nav-link dropdown-toggle" href="#" id="DropTarjetas" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Tarjetas de Video
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="tarjetas.html">Tarjetas de Video Nvidia</a><!--Item 1 dropdown-->
-                  <a class="dropdown-item" href="amd.html">Tarjetas de Video AMD</a><!--Item 2 dropdown-->
+                  <a class="dropdown-item" href="#">Tarjetas de Video Nvidia</a><!--Item 1 dropdown-->
+                  <a class="dropdown-item" href="#">Tarjetas de Video AMD</a><!--Item 2 dropdown-->
               </li><!--Fin del dropdown-->
+              <li class="nav-item active"><!--Inicio de Boton RAM-->
+                <a class="nav-link" href="#">Memorias RAM <span class="sr-only">(current)</span></a>
+              </li><!--Fin boton de RAM-->
               
             </ul>
-            <div class="navbar-nav">
+            {% if user.is_authenticated %}
+            <ul class="navbar-nav" style="margin-right: 30px;">
+              <li class="nav-item active"><!--Inicio de Boton RAM-->
+                <a class="nav-link" href="{% url 'producto' %}">Ingresar Productos <span class="sr-only">(current)</span></a>
+              </li><!--Fin boton de RAM-->
+            </ul>
+            {% endif %}
+            <div class="navbar-nav" style="margin-right: 70px;">
               <form class="form-inline my-2 my-lg-0"><!--Inicio cuadro Buscar-->
                   <input class="form-control mr-sm-2" id="buscador" value="" type="search" placeholder="Buscar" aria-label="Search">
                   <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
               </form><!--Fin cuadro Buscar-->
               <div>
+              {% if user.is_authenticated %}
+                  <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle nav-link" role="button" data-toggle="dropdown" aria-haspopup="true"><img src="{% static 'images/user3.ico' %}" style="width: 30px; height: 30px;" ></a>
+                        <div tabindex="-1" style="position: absolute; will-change: transform; top: 35px; left: 0px;">
+                          <div class="dropdown-menu" aria-labelledby="navbarDropdown" >
+                            <a class="dropdown-item navbar-dropdown-link" href="{% url 'logout' %}">salir</a><!--Item 1 dropdown-->
+                          </div>
+                        </div>
+                  </li>
+              {% else %}
                   <li class="nav-item dropdown"><!--Inicio de DropDown login-->
                       <a class="nav-link dropdown-toggle" href="#" id="DropInicioSesion" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Inicio Sesión
                       </a>
+                      <div tabindex="-1" style="position: absolute; will-change: transform; top: 35px; left: 0px;">
                       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="login.html">Iniciar Sesión</a><!--Item 1 dropdown-->
-                        <a class="dropdown-item" href="register.html">Registrarse</a><!--Item 2 dropdown-->
+                        <a class="dropdown-item" href="{% url 'login' %}">Iniciar Sesión</a><!--Item 1 dropdown-->
+                        <a class="dropdown-item" href="{% url 'registro' %}">Registrarse</a><!--Item 2 dropdown-->
                       </div>
-                    </li><!--Fin del dropdown-->
+                    </div>
+                  </li><!--Fin del dropdown-->
               </div>
-            </div>
+              {% endif %}
+          </div>
             
             
           </div>

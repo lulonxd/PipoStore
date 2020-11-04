@@ -9,11 +9,16 @@
     <div class="col-9">
         <div class="row">
             {% for producto in productos %}
-                <div class="col-md-4">
-                    <div class="card" style="width: 100%;">
+                    <div class="card col-md-3" style="width: 100%; margin-left: 10;">
+                            <p>{{ producto.nombre }}</p>
                         <img src="{{producto.imagen.url}}" style="width: 100%;" class="card-img-top" alt="{{producto.nombre}}"/>
+							<p>{{ producto.marca }}</p>
+							<p>{{ producto.categoria }}</p>
+							<p>{{ producto.descripcion }}</p>
+							<p>{{ producto.stock }}</p>
+							<p>{{ producto.precioCosto }}</p>
+							<p>{{ producto.precioVenta }}</p>
                         <p>Precio: {{ producto.precioVenta }}</p>
-                    </div>
                 </div>
             {% endfor %}
         </div>

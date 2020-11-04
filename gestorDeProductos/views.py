@@ -1,13 +1,24 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from gestorDeProductos.models import Marca, Categoria, Producto
+from django.core.files.storage import FileSystemStorage
+from django.contrib.auth.forms import UserCreationForm
 
 # Create your views here.
 
 def plantilla(request):
     return render(request, 'plantillaBase.html', {})
 
-def login(request):
-    return render(request, 'login.html', {})
+
+
+def registro(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            return redirect('inicio')
+    else:
+        form = UserCreationForm()
+    return render(request, 'registration/registro.html', {'form':form})
 
 def marca(request):
     mensaje=""
@@ -111,15 +122,16 @@ def producto(request):
             stock 		= int("0" + request.POST['txtStock'])
             precioCosto = int("0" + request.POST['txtPrecioCosto'])
             precioVenta	= int("0" + request.POST['txtPrecioVenta'])
-            imagen      = request.POST['imagen']
             
             if 'btnGrabar' in request.POST: # validar informacion
                 if idMarca < 1: # crear nuevo elemento
                     errores['cmbMarca'] = "Falta seleccionar marca"
                 else:
+                    uploaded_file = request.FILES['imagen']
+                    fs = FileSystemStorage()
                     marca = Marca.objects.get(pk=idMarca)
                     categoria = Categoria.objects.get(pk=idCategoria)
-                    Producto.objects.create(categoria=categoria, marca=marca, nombre=nombre,descripcion=descripcion,stock=stock,precioCosto=precioCosto,precioVenta=precioVenta, imagen=imagen)
+                    Producto.objects.create(categoria=categoria, marca=marca, nombre=nombre,descripcion=descripcion,stock=stock,precioCosto=precioCosto,precioVenta=precioVenta, imagen=uploaded_file)
                 
             elif 'btnListar' in request.POST: # como filtrar con el ORM
                 lista = Producto.objects.filter(nombre__contains = nombre)
@@ -139,7 +151,7 @@ def producto(request):
     context = {'mensaje' : mensaje, 'lista': lista, 'item': item, 'cmbMarca': cmbMarca, 'cmbCategoria': cmbCategoria, 'errores': errores}
     return render(request, 'producto.html', context)
 
-def index(request):
+def inicio(request):
     lista = {}
     productos = Producto.objects.all()
     return render(request, 'index.html', {"productos":productos})

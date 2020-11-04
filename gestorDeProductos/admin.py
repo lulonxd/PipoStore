@@ -2,9 +2,6 @@ from django.contrib import admin
 from .models import *
 # Register your models here.
 
-class clientesAdmin(admin.ModelAdmin):
-    list_display=("nombre", "direccion", "email", "telefono")
-    search_fields=("nombre","apellido", "telefono", "email")
 
 class productoAdmin(admin.ModelAdmin):
     list_display=("marca", "categoria", "nombre", "descripcion", "stock", "precioCosto", "precioVenta", "imagen")
@@ -22,7 +19,6 @@ class categoriaAdmin(admin.ModelAdmin):
     search_fields=("nombre",)
     
 
-admin.site.register(Cliente, clientesAdmin)
 admin.site.register(Producto, productoAdmin)
 admin.site.register(Marca, marcaAdmin)
 admin.site.register(Categoria, categoriaAdmin)

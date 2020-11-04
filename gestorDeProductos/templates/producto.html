@@ -22,7 +22,7 @@
 		</div>
 	</div>
 {% endif %}
-	<form action="{% url 'producto' %}" method="POST" >
+	<form action="{% url 'producto' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="row justify-content-center">
             <div class="col-12 col-md-2">
@@ -112,7 +112,7 @@
 				Imagen
 			</div>
 			<div class="col-12 col-sm-6">
-				<input type="file" name="imagen" class="form-control"  value="{{ item.imagen }}">
+				<input type="file" name="imagen" class="form-control">
 			</div>
 		</div>
 		<div class="row justify-content-center">
@@ -145,6 +145,7 @@
 						<th>Stock</th>
 						<th>PrecioCosto</th>
 						<th>PrecioVenta</th>
+						<th>Imagen</th>
 					</thead>
 					<tbody>
 {% for fila in lista %}
@@ -157,6 +158,7 @@
 							<td>{{ fila.stock }}</td>
 							<td>{{ fila.precioCosto }}</td>
 							<td>{{ fila.precioVenta }}</td>
+							<td><img src="{{fila.imagen.url}}" style="width: 10%;"></td>
 						</tr>	
 {% endfor %}
 					</tbody>
