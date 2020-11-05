@@ -1,16 +1,25 @@
 {% extends "plantillaBase.html" %}
-
 {% block title %}
-<title>Registro de Producto</title>
+<title>PipoGestión - Registro de Producto</title>
 {% endblock %}
 {% block script %}
 
+
 {% endblock %}
 {% block tituloPagina %}
+{% if user.is_authenticated and user.is_staff %}
 <div class="row justify-content-center">
     <h1>Registro de Producto</h1>
 </div>
+{% else %}
+<div class="row justify-content-center">
+	<div class="alert alert-danger col-6" role="alert">
+	No posees los permisos necesarios para interactuar con esta pagina
+	</div>
+</div>
+{% endif %}
 {% endblock %}
+
 
 {% block contenido %}
 {% if mensaje %}
@@ -22,51 +31,53 @@
 		</div>
 	</div>
 {% endif %}
+{% if user.is_authenticated and user.is_staff %}
+<div class="justify-content-center">
 	<form action="{% url 'producto' %}" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="row justify-content-center">
-            <div class="col-12 col-md-2">
-                Id
-            </div>
-            <div class="col-8 col-md-4">
-                <input type="text" name="txtId" class="form-control" value="{{ item.id }}">
-            </div>
-            <div class="col-4 col-md-2">
-                <input type="submit" name="btnBuscar" class="btn btn-success btn-block" value="Buscar">
-            </div>
-        </div>
+		{% csrf_token %}
+		<div class="row justify-content-center">
+			<div class="col-12 col-md-2">
+				Id
+			</div>
+			<div class="col-8 col-md-4">
+				<input type="text" name="txtId" class="form-control" value="{{ item.id }}">
+			</div>
+			<div class="col-4 col-md-2">
+				<input type="submit" name="btnBuscar" class="btn btn-success btn-block" value="Buscar">
+			</div>
+		</div>
 		<div class="row justify-content-center">
 			<div class="col-12 col-sm-2">
-				marca
+				Marca
 			</div>
 			<div class="col-12 col-sm-6">
 				<select name="cmbMarca" class="form-control">
-                    <option value="0">Seleccionar</option>
+					<option value="0">Seleccionar</option>
 {% if cmbMarca %}
-    {% for fila in cmbMarca %}
-                    <option value="{{ fila.id }}">{{ fila.nombre }}</option>
-    {% endfor %}
+	{% for fila in cmbMarca %}
+					<option value="{{ fila.id }}">{{ fila.nombre }}</option>
+	{% endfor %}
 {% endif %}
-                </select>
-                {{ errores.cmbMarca }}
+				</select>
+				{{ errores.cmbMarca }}
 			</div>
 		</div>
 		<div class="row justify-content-center">
 			<div class="col-12 col-sm-2">
 				Categoria
 			</div>
-			<div class="col-8 col-sm-6">
+			<div class="col-12 col-sm-6">
 				<select name="cmbCategoria" class="form-control">
-                    <option value="0">Seleccionar</option>
+					<option value="0">Seleccionar</option>
 {% if cmbCategoria %}
-    {% for fila in cmbCategoria %}
-                    <option value="{{ fila.id }}">{{ fila.nombre }}</option>
-    {% endfor %}
+	{% for fila in cmbCategoria %}
+					<option value="{{ fila.id }}">{{ fila.nombre }}</option>
+	{% endfor %}
 {% endif %}
-                </select>
+				</select>
 			</div>
-        </div>
-        <div class="row justify-content-center">
+		</div>
+		<div class="row justify-content-center">
 			<div class="col-12 col-sm-2">
 				Nombre
 			</div>
@@ -91,15 +102,15 @@
 				<input type="text" name="txtStock" class="form-control" value="{{ item.stock }}">
 			</div>
 		</div>
-        <div class="row justify-content-center">
+		<div class="row justify-content-center">
 			<div class="col-12 col-sm-2">
 				PrecioCosto
 			</div>
 			<div class="col-12 col-sm-6">
 				<input type="text" name="txtPrecioCosto" class="form-control" value="{{ item.precioCosto }}">
 			</div>
-        </div>
-        <div class="row justify-content-center">
+		</div>
+		<div class="row justify-content-center">
 			<div class="col-12 col-sm-2">
 				PrecioVenta
 			</div>
@@ -128,6 +139,8 @@
 			</div>
 		</div>		
 	</form>
+</div>
+{% endif %}
 {% endblock %}
 <br>
 {% block listado %}
@@ -145,7 +158,6 @@
 						<th>Stock</th>
 						<th>PrecioCosto</th>
 						<th>PrecioVenta</th>
-						<th>Imagen</th>
 					</thead>
 					<tbody>
 {% for fila in lista %}
@@ -158,7 +170,6 @@
 							<td>{{ fila.stock }}</td>
 							<td>{{ fila.precioCosto }}</td>
 							<td>{{ fila.precioVenta }}</td>
-							<td><img src="{{fila.imagen.url}}" style="width: 10%;"></td>
 						</tr>	
 {% endfor %}
 					</tbody>
@@ -169,4 +180,5 @@
 	
 	
 {% endif %}
+
 {% endblock %}

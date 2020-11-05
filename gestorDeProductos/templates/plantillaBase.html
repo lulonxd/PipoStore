@@ -3,7 +3,7 @@
 <html>
     <head>
       {% block title %}
-      <title>Pipo Store</title>
+      <title>Pipo Store - Inicio</title>
       {% endblock %}
       <link rel="icon" type="image/jpg" href="{% static 'images/icono.jpg' %}">
       <meta charset="utf-8">
@@ -16,7 +16,7 @@
 
       {% endblock %}
     </head>
-    <body style="background-color: aliceblue">
+    <body style="background-color: aliceblue" style="margin: left 10px;">
       <div class="container-fluid">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-top: auto;"><!--Inicio del Navbar    navbar-dark bg-dark (pone la barra en color negro)-->
           <a class="navbar-brand align-justify" href="{% url 'inicio' %}">
@@ -45,11 +45,17 @@
               </li><!--Fin boton de RAM-->
               
             </ul>
-            {% if user.is_authenticated %}
+            {% if user.is_authenticated and user.is_staff %}
             <ul class="navbar-nav" style="margin-right: 30px;">
-              <li class="nav-item active"><!--Inicio de Boton RAM-->
-                <a class="nav-link" href="{% url 'producto' %}">Ingresar Productos <span class="sr-only">(current)</span></a>
-              </li><!--Fin boton de RAM-->
+              <li class="nav-item dropdown"><!--Inicio de DropDown con las tarjetas-->
+                <a class="nav-link dropdown-toggle" href="#" id="DropTarjetas" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Registro de Productos
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="{% url 'producto' %}">Ingresar Producto</a><!--Item 1 dropdown-->
+                  <a class="dropdown-item" href="{% url 'marca' %}">Ingresar Marca</a><!--Item 2 dropdown-->
+                  <a class="dropdown-item" href="{% url 'categoria' %}">Ingresar Categoria</a><!--Item 2 dropdown-->
+              </li><!--Fin del dropdown-->
             </ul>
             {% endif %}
             <div class="navbar-nav" style="margin-right: 70px;">

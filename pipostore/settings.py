@@ -31,13 +31,13 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'gestorDeProductos',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'gestorDeProductos',
     'crispy_forms',
 ]
 
@@ -58,7 +58,9 @@ ROOT_URLCONF = 'pipostore.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'gestorDeProductos/templates')
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -132,3 +134,5 @@ MEDIA_ROOT=os.path.join(BASE_DIR, 'images')
 LOGIN_REDIRECT_URL='inicio'
 
 LOGOUT_REDIRECT_URL='inicio'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

@@ -3,12 +3,21 @@ from gestorDeProductos.models import Marca, Categoria, Producto
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.forms import UserCreationForm
 
+
 # Create your views here.
 
 def plantilla(request):
     return render(request, 'plantillaBase.html', {})
 
+def buscarPorId(modelo, id):
+	try:
+		item = modelo.objects.get(pk=id)
+	except:
+		item = {}
+	return item
 
+def resetPassword(request):
+    return render(request, 'password_change_form.html', {})
 
 def registro(request):
     if request.method == "POST":
@@ -60,7 +69,7 @@ def marca(request):
                 item = {}
     
     contexto = {'mensaje':mensaje, 'lista' : lista, 'item':item}
-    return render(request, 'marca.html', contexto)
+    return render(request, 'producto/marca.html', contexto)
 
 def categoria(request):
     mensaje=""
@@ -104,7 +113,7 @@ def categoria(request):
     contexto = {'mensaje':mensaje, 'lista':lista, 'item':item}
 
 
-    return render(request, 'categoria.html', contexto)
+    return render(request, 'producto/categoria.html', contexto)
 
 def producto(request):
     mensaje = ""
@@ -124,23 +133,38 @@ def producto(request):
             precioVenta	= int("0" + request.POST['txtPrecioVenta'])
             
             if 'btnGrabar' in request.POST: # validar informacion
-                if idMarca < 1: # crear nuevo elemento
+                if idMarca < 1 or idCategoria < 1: # crear nuevo elemento
                     errores['cmbMarca'] = "Falta seleccionar marca"
-                else:
+                elif id < 1:
                     uploaded_file = request.FILES['imagen']
                     fs = FileSystemStorage()
                     marca = Marca.objects.get(pk=idMarca)
                     categoria = Categoria.objects.get(pk=idCategoria)
                     Producto.objects.create(categoria=categoria, marca=marca, nombre=nombre,descripcion=descripcion,stock=stock,precioCosto=precioCosto,precioVenta=precioVenta, imagen=uploaded_file)
-                
+                else:
+                    item = buscarPorId(Producto, id)
+                    if not isinstance(item, Producto):
+                        mensaje = "No se debe ingresar ID"
+                    else:
+                        item.marca = idMarca
+                        item.categoria = idCategoria
+                        item.nombre = nombre
+                        item.descripcion = descripcion
+                        item.stock = stock
+                        item.precioCosto = precioCosto
+                        item.precioVenta = precioVenta
+                        uploaded_file = request.FILES['imagen']
+                        fs = FileSystemStorage()
+                        item.save()
+                        mensaje = "La solicitud fue realizada con éxito"
+                    item = {}
             elif 'btnListar' in request.POST: # como filtrar con el ORM
                 lista = Producto.objects.filter(nombre__contains = nombre)
             elif 'btnBuscar' in request.POST:
-                item = Producto.objects.get(pk = id)
-
+                item = buscarPorId(Producto, id)
                 if not isinstance(item, Producto):
                     mensaje = "Registro no encontrado"
-                    item = {}
+                
             elif 'btnEliminar' in request.POST:
                 item = Producto.objects.get(pk = id)
 
@@ -149,7 +173,7 @@ def producto(request):
                     mensaje = "Registro eliminado"
                     item = {}
     context = {'mensaje' : mensaje, 'lista': lista, 'item': item, 'cmbMarca': cmbMarca, 'cmbCategoria': cmbCategoria, 'errores': errores}
-    return render(request, 'producto.html', context)
+    return render(request, 'producto/producto.html', context)
 
 def inicio(request):
     lista = {}
@@ -157,6 +181,5 @@ def inicio(request):
     return render(request, 'index.html', {"productos":productos})
 
 
-    
 
 

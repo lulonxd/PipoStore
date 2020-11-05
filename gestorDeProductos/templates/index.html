@@ -5,24 +5,23 @@
 {% endblock %}
 <br><br>
 {% block contenido %}
-<div class="row">
-    <div class="col-9">
-        <div class="row">
+<div class="row col-12">
             {% for producto in productos %}
-                    <div class="card col-md-3" style="width: 100%; margin-left: 10;">
-                            <p>{{ producto.nombre }}</p>
-                        <img src="{{producto.imagen.url}}" style="width: 100%;" class="card-img-top" alt="{{producto.nombre}}"/>
-							<p>{{ producto.marca }}</p>
-							<p>{{ producto.categoria }}</p>
+                    <div class="card col-12 col-md-3" style="margin-right: auto;">
+                        <img class="card-img-top col-12" src="{{producto.imagen.url}}">
+                        <div class="card-body">
+                          <h5 class="card-title">{{ producto.nombre }}</h5>
+                            <p>Marca: {{ producto.marca }}</p>
 							<p>{{ producto.descripcion }}</p>
-							<p>{{ producto.stock }}</p>
-							<p>{{ producto.precioCosto }}</p>
-							<p>{{ producto.precioVenta }}</p>
-                        <p>Precio: {{ producto.precioVenta }}</p>
-                </div>
+                            <p>Stock: {{ producto.stock }}</p>
+                            <div class="price-container text-primary">
+                                <h5>${{ producto.precioVenta }}</h5>
+                                <input class="btn btn-primary" type="submit" value="Añadir al Carrito">
+                            </div>
+                        </div>
+                      </div>
+
             {% endfor %}
-        </div>
-    </div>
 </div>
 
 
