@@ -2,9 +2,18 @@ from django.shortcuts import render, redirect
 from gestorDeProductos.models import Marca, Categoria, Producto
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.forms import UserCreationForm
+from django.views.generic import CreateView
+from django.contrib.auth.models import User
+from gestorDeProductos.forms import RegistroForm
 
 
 # Create your views here.
+
+class RegistroUsuario(CreateView):
+    model = User
+    template_name = "registration/registro.html"
+    form_class = RegistroForm
+    success_url = "inicio"
 
 def plantilla(request):
     return render(request, 'plantillaBase.html', {})
@@ -19,16 +28,6 @@ def buscarPorId(modelo, id):
 def resetPassword(request):
     return render(request, 'password_change_form.html', {})
 
-def registro(request):
-    if request.method == "POST":
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            return redirect('inicio')
-    else:
-        form = UserCreationForm()
-    return render(request, 'registration/registro.html', {'form':form})
-
 def marca(request):
     mensaje=""
     lista={}
@@ -40,16 +39,17 @@ def marca(request):
         activo  = request.POST.get("chkActivo") is "1"
 
         if 'btnGrabar' in request.POST:
-            if id < 1:
-                Marca.objects.create(nombre=nombre, activo=activo)
-                
+            if nombre == "":
+                mensaje = "Porfavor Ingrese Nombre de Marca"
+            elif id < 1:
+                Marca.objects.create(nombre=nombre, activo=activo)    
             else:
                 item = Marca.objects.get(pk = id)
                 item.nombre = nombre
                 item.activo = activo
                 item.save()
                 item = {}
-            mensaje= "Datos Guardados Correctamente"
+                mensaje= "Datos Guardados Correctamente"
         elif 'btnBuscar' in request.POST:
             item = Marca.objects.get(pk = id)
 
@@ -75,23 +75,23 @@ def categoria(request):
     mensaje=""
     lista={}
     item={}
-
+    errores = {}
     if request.method == "POST":
         id      = int("0" + request.POST["txtId"])
         nombre  = request.POST["txtNombre"]
         activo  = request.POST.get("chkActivo") is "1"
-
         if 'btnGrabar' in request.POST:
-            if id < 1:
+            if nombre == "":
+                mensaje = "Porfavor Ingrese Nombre de Categoria"
+            elif id < 1:
                 Categoria.objects.create(nombre=nombre, activo=activo)
-                
             else:
                 item = Categoria.objects.get(pk = id)
                 item.nombre = nombre
                 item.activo = activo
                 item.save()
                 item = {}
-            mensaje= "Datos Guardados Correctamente"
+                mensaje= "Datos Guardados Correctamente"
         elif 'btnBuscar' in request.POST:
             item = Categoria.objects.get(pk = id)
 
@@ -110,7 +110,7 @@ def categoria(request):
                 mensaje = "Registro eliminado"
                 item = {}
     
-    contexto = {'mensaje':mensaje, 'lista':lista, 'item':item}
+    contexto = {'mensaje':mensaje, 'lista':lista, 'item':item,'errores': errores}
 
 
     return render(request, 'producto/categoria.html', contexto)
@@ -128,19 +128,30 @@ def producto(request):
             idCategoria = int("0" + request.POST['cmbCategoria'])
             nombre 		= request.POST['txtNombre']
             descripcion = request.POST['txtDescripcion']
-            stock 		= int("0" + request.POST['txtStock'])
-            precioCosto = int("0" + request.POST['txtPrecioCosto'])
-            precioVenta	= int("0" + request.POST['txtPrecioVenta'])
-            
+            stock 		= request.POST['txtStock']
+            precioCosto = request.POST['txtPrecioCosto']
+            precioVenta	= request.POST['txtPrecioVenta']
             if 'btnGrabar' in request.POST: # validar informacion
-                if idMarca < 1 or idCategoria < 1: # crear nuevo elemento
-                    errores['cmbMarca'] = "Falta seleccionar marca"
+                if idMarca < 1:
+                    mensaje = "Porfavor Seleccione Marca"
+                elif idCategoria < 1:
+                    mensaje = "Porfavor seleccione Categoria"
+                elif nombre == "":
+                    mensaje = "Porfavor ingrese Nombre"
+                elif descripcion == "":
+                    mensaje = "Porfavor ingrese Descripcion"
+                elif stock == "":
+                    mensaje = "Porfavor ingrese Stock"
+                elif precioCosto == "":
+                    mensaje = "Porfavor ingrese precio Costo"
+                elif precioVenta == "":
+                    mensaje = "Porfavor ingrese Precio de Venta"
                 elif id < 1:
                     uploaded_file = request.FILES['imagen']
                     fs = FileSystemStorage()
                     marca = Marca.objects.get(pk=idMarca)
                     categoria = Categoria.objects.get(pk=idCategoria)
-                    Producto.objects.create(categoria=categoria, marca=marca, nombre=nombre,descripcion=descripcion,stock=stock,precioCosto=precioCosto,precioVenta=precioVenta, imagen=uploaded_file)
+                    Producto.objects.create(categoria=categoria, marca=marca, nombre=nombre,descripcion=descripcion,stock=int(stock),precioCosto=int(precioCosto),precioVenta=int(precioVenta), imagen=uploaded_file)
                 else:
                     item = buscarPorId(Producto, id)
                     if not isinstance(item, Producto):

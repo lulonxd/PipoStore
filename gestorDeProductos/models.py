@@ -24,10 +24,10 @@ class Producto(models.Model):
     categoria	    = models.ForeignKey(Categoria, blank=True, null=True, on_delete=models.SET_NULL)
     nombre          = models.TextField(max_length=50)
     descripcion     = models.TextField()
-    stock           = models.IntegerField(null=True)
+    stock           = models.IntegerField()
     precioCosto     = models.IntegerField()
     precioVenta     = models.IntegerField()
-    imagen          = models.ImageField(upload_to='productos/',blank=True , null=True)
+    imagen          = models.ImageField(upload_to='productos/')
 
     def __str__(self):
         return self.nombre

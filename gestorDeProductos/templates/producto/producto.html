@@ -1,11 +1,10 @@
 {% extends "plantillaBase.html" %}
+{% load static %}
 {% block title %}
 <title>PipoGestión - Registro de Producto</title>
 {% endblock %}
-{% block script %}
 
 
-{% endblock %}
 {% block tituloPagina %}
 {% if user.is_authenticated and user.is_staff %}
 <div class="row justify-content-center">
@@ -22,6 +21,15 @@
 
 
 {% block contenido %}
+{% if errores %}
+	<div class="row justify-content-center">
+		<div class="col-12 col-sm-8">
+			<div class="alert alert-success" role="alert">
+			{{ mensaje }}
+			</div>
+		</div>
+	</div>
+{% endif %}
 {% if mensaje %}
 	<div class="row justify-content-center">
 		<div class="col-12 col-sm-8">
@@ -33,8 +41,9 @@
 {% endif %}
 {% if user.is_authenticated and user.is_staff %}
 <div class="justify-content-center">
-	<form action="{% url 'producto' %}" method="POST" enctype="multipart/form-data">
+	<form action="{% url 'producto' %}" method="POST" enctype="multipart/form-data" >
 		{% csrf_token %}
+		
 		<div class="row justify-content-center">
 			<div class="col-12 col-md-2">
 				Id
@@ -51,15 +60,14 @@
 				Marca
 			</div>
 			<div class="col-12 col-sm-6">
-				<select name="cmbMarca" class="form-control">
-					<option value="0">Seleccionar</option>
+				<select name="cmbMarca" class="form-control"  >
+					<option value="">Seleccionar</option>
 {% if cmbMarca %}
 	{% for fila in cmbMarca %}
 					<option value="{{ fila.id }}">{{ fila.nombre }}</option>
 	{% endfor %}
 {% endif %}
 				</select>
-				{{ errores.cmbMarca }}
 			</div>
 		</div>
 		<div class="row justify-content-center">
@@ -67,8 +75,8 @@
 				Categoria
 			</div>
 			<div class="col-12 col-sm-6">
-				<select name="cmbCategoria" class="form-control">
-					<option value="0">Seleccionar</option>
+				<select name="cmbCategoria" class="form-control" >
+					<option value="">Seleccionar</option>
 {% if cmbCategoria %}
 	{% for fila in cmbCategoria %}
 					<option value="{{ fila.id }}">{{ fila.nombre }}</option>
@@ -82,7 +90,7 @@
 				Nombre
 			</div>
 			<div class="col-12 col-sm-6">
-				<input type="text" name="txtNombre" class="form-control" value="{{ item.nombre }}">
+				<input type="text" name="txtNombre" class="form-control" value="{{ item.nombre }}" >
 			</div>
 		</div>
 		<div class="row justify-content-center">
@@ -90,7 +98,7 @@
 				Descripcion
 			</div>
 			<div class="col-12 col-sm-6">
-				<input type="text" name="txtDescripcion" class="form-control" value="{{ item.descripcion }}">
+				<input type="text" name="txtDescripcion" class="form-control" value="{{ item.descripcion }}"  >
 			</div>
 		</div>
 
@@ -99,7 +107,7 @@
 				Stock
 			</div>
 			<div class="col-12 col-sm-6">
-				<input type="text" name="txtStock" class="form-control" value="{{ item.stock }}">
+				<input type="text" name="txtStock" class="form-control" value="{{ item.stock }}"  >
 			</div>
 		</div>
 		<div class="row justify-content-center">
@@ -107,7 +115,7 @@
 				PrecioCosto
 			</div>
 			<div class="col-12 col-sm-6">
-				<input type="text" name="txtPrecioCosto" class="form-control" value="{{ item.precioCosto }}">
+				<input type="text" name="txtPrecioCosto" class="form-control" value="{{ item.precioCosto }}"  >
 			</div>
 		</div>
 		<div class="row justify-content-center">
@@ -115,7 +123,7 @@
 				PrecioVenta
 			</div>
 			<div class="col-12 col-sm-6">
-				<input type="text" name="txtPrecioVenta" class="form-control" value="{{ item.precioVenta }}">
+				<input type="text" name="txtPrecioVenta" class="form-control" value="{{ item.precioVenta }}"  >
 			</div>
 		</div>
 		<div class="row justify-content-center">
@@ -123,7 +131,7 @@
 				Imagen
 			</div>
 			<div class="col-12 col-sm-6">
-				<input type="file" name="imagen" class="form-control">
+				<input type="file" name="imagen" class="form-control"  >
 			</div>
 		</div>
 		<div class="row justify-content-center">
