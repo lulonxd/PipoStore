@@ -1,28 +1,91 @@
 {% extends 'plantillaBase.html' %}
+{% load static %}
 
-{% load crispy_forms_tags %}
+{% block script %}
 
-{% block title %}
-    <title>PipoStore - Registro de Usuario</title>
 {% endblock %}
 
 {% block contenido %}
-    
+{% if mensaje %}
+	<div class="row justify-content-center">
+		<div class="col-12 col-sm-8">
+			<div class="alert alert-danger" role="alert">
+			{{ mensaje }}
+			</div>
+		</div>
+	</div>
+{% endif %}
+{% if user.is_authenticated %}
 <div class="row justify-content-center">
-    <h2>Registro de Usuario</h2>
-</div>
-<br>
-<div class="row justify-content-center">
-    <div class="col-12 col-md-6">
-        <div class="card">
-            <div class="card-body">
-                <form class="col-12" method="POST">
-                    {% csrf_token %}
-                    {{ form|crispy }}
-                    <button type="submit" class="btn btn-success">Registrarse</button>
-                </form>
-            </div>
+    <div class="col-12 col-sm-4">
+        <div class="alert alert-danger" role="alert">
+        YA ESTAS REGISTRADO!
         </div>
     </div>
 </div>
+{% else %}
+<script src="{% static 'js/registro.js' %}"></script>
+<form action="{% url 'registro' %}" method="post">
+    {% csrf_token %}
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-1">
+            Usuario 
+        </div>
+        <div class="col-12 col-md-4">
+            <input type="text" name="txtUsuario" class="txtNombre form-control" required>
+        </div>			
+    </div>
+    <br>
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-1">
+            Nombre
+        </div>
+        <div class="col-12 col-md-4">
+            <input type="text" name="txtNombre" class="txtNombre form-control" required>
+        </div>			
+    </div>
+    <br>
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-1">
+            Apellido
+        </div>
+        <div class="col-12 col-md-4">
+            <input type="text" name="txtApellido" class="txtNombre form-control" required>
+        </div>			
+    </div>
+    <br>
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-1">
+            Correo
+        </div>
+        <div class="col-12 col-md-4">
+            <input type="text" name="txtCorreo" class="txtCorreo form-control" required>
+        </div>			
+    </div>
+    <br>
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-1">
+            Clave
+        </div>
+        <div class="col-12 col-md-4">
+            <input type="password" name="txtClave" class="txtClave form-control" required>
+        </div>			
+    </div>
+    <br>
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-1">
+            Confirmar Clave
+        </div>
+        <div class="col-12 col-md-4">
+            <input type="password" name="txtClave2" class="txtClave form-control" required>
+        </div>			
+    </div>
+    <br>
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-3">
+            <input type="submit" name="btnRegistrarse" class="btn btn-primary" value="Registrarse">
+        </div>			
+    </div>
+</form>
+{% endif %}
 {% endblock %}

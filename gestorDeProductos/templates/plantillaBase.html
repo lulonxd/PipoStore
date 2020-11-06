@@ -69,7 +69,7 @@
                       <a class="nav-link dropdown-toggle nav-link" role="button" data-toggle="dropdown" aria-haspopup="true"><img src="{% static 'images/user3.ico' %}" style="width: 30px; height: 30px;" ></a>
                         <div tabindex="-1" style="position: absolute; will-change: transform; top: 35px; left: 0px;">
                           <div class="dropdown-menu" aria-labelledby="navbarDropdown" >
-                            <a class="dropdown-item navbar-dropdown-link" href="{% url 'logout' %}">salir</a><!--Item 1 dropdown-->
+                            <a class="dropdown-item navbar-dropdown-link" href="{% url 'logout' %}?next=/inicio">salir</a><!--Item 1 dropdown-->
                           </div>
                         </div>
                   </li>

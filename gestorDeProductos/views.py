@@ -1,19 +1,40 @@
 from django.shortcuts import render, redirect
 from gestorDeProductos.models import Marca, Categoria, Producto
 from django.core.files.storage import FileSystemStorage
-from django.contrib.auth.forms import UserCreationForm
-from django.views.generic import CreateView
 from django.contrib.auth.models import User
-from gestorDeProductos.forms import RegistroForm
-
+from django.contrib.auth.hashers import make_password  
+from django.conf import settings
+from django.shortcuts import redirect
+from django.contrib.auth import authenticate, login, validators
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 
 # Create your views here.
 
-class RegistroUsuario(CreateView):
-    model = User
-    template_name = "registration/registro.html"
-    form_class = RegistroForm
-    success_url = "inicio"
+def logout(request):
+    return render(request, 'registration/logout.html', {})
+
+
+
+def registro(request):
+    mensaje = ""
+    if request.method == "POST":
+        usuario	= request.POST["txtUsuario"]
+        nombre  = request.POST['txtNombre']
+        apellido  = request.POST['txtApellido']
+        correo	= request.POST["txtCorreo"]
+        clave	= request.POST["txtClave"]
+        confirm = request.POST["txtClave2"]
+        value = "foo.bar@baz.qux"
+
+        try:
+            validate_email(correo)
+        except ValidationError as e:
+            mensaje = "Porfavor Ingrese un correo válido"
+        else:
+            User.objects.create(username=nombre,first_name=nombre,last_name=apellido , email=correo, password=make_password(clave))
+            return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
+    return render(request, 'registration/registro.html', {'mensaje':mensaje})	
 
 def plantilla(request):
     return render(request, 'plantillaBase.html', {})
@@ -24,9 +45,6 @@ def buscarPorId(modelo, id):
 	except:
 		item = {}
 	return item
-
-def resetPassword(request):
-    return render(request, 'password_change_form.html', {})
 
 def marca(request):
     mensaje=""

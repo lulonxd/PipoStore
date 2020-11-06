@@ -1,6 +1,8 @@
 from django.db import models
 from django import forms
 from django.contrib.auth.models import User
+
+
 # Create your models here.
 
 
@@ -22,12 +24,13 @@ class Categoria(models.Model):
 class Producto(models.Model):
     marca           = models.ForeignKey(Marca, blank=True, null=True, on_delete=models.SET_NULL)
     categoria	    = models.ForeignKey(Categoria, blank=True, null=True, on_delete=models.SET_NULL)
-    nombre          = models.TextField(max_length=50)
+    nombre          = models.CharField(max_length=50)
     descripcion     = models.TextField()
     stock           = models.IntegerField()
     precioCosto     = models.IntegerField()
     precioVenta     = models.IntegerField()
     imagen          = models.ImageField(upload_to='productos/')
+
 
     def __str__(self):
         return self.nombre

@@ -5,9 +5,17 @@
 {% endblock %}
 
 {%  block tituloPagina %}
+{% if user.is_authenticated and user.is_staff %}
 <div class="row justify-content-center">
-        <h1>Registro de Marca</h1>
+    <h1>Registro de Marca</h1>
 </div>
+{% else %}
+<div class="row justify-content-center">
+	<div class="alert alert-danger col-6" role="alert">
+	No posees los permisos necesarios para interactuar con esta pagina
+	</div>
+</div>
+{% endif %}
 {% endblock %}
 <br><br>
 {% block contenido %}
@@ -20,6 +28,7 @@
 		</div>
 	</div>
 {% endif %}
+{% if user.is_authenticated and user.is_staff %}
 <form action="{% url 'marca' %}" method="POST">
     {% csrf_token %}
     <div class="row justify-content-center">
@@ -66,6 +75,7 @@
         </div>
     </div>
 </form>
+{% endif %}
 {% endblock %}
 
 
