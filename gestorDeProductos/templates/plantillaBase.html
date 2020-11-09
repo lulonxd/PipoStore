@@ -3,9 +3,9 @@
 <html>
     <head>
       {% block title %}
-      <title>Pipo Store - Inicio</title>
+      <title>PipoStore - Inicio</title>
       {% endblock %}
-      <link rel="icon" type="image/jpg" href="{% static 'images/icono.jpg' %}">
+      <link rel="icon" type="image/jpg" href="{% static 'images/logo.jpg' %}">
       <meta charset="utf-8">
       <!--importar bootstrap y js-->
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
@@ -37,11 +37,11 @@
                   Tarjetas de Video
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="#">Tarjetas de Video Nvidia</a><!--Item 1 dropdown-->
-                  <a class="dropdown-item" href="#">Tarjetas de Video AMD</a><!--Item 2 dropdown-->
+                  <a class="dropdown-item" href="{% url 'NVIDIA' %}">Tarjetas de Video Nvidia</a><!--Item 1 dropdown-->
+                  <a class="dropdown-item" href="{% url 'AMD' %}">Tarjetas de Video AMD</a><!--Item 2 dropdown-->
               </li><!--Fin del dropdown-->
               <li class="nav-item active"><!--Inicio de Boton RAM-->
-                <a class="nav-link" href="#">Memorias RAM <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{% url 'RAM' %}">Memorias RAM <span class="sr-only">(current)</span></a>
               </li><!--Fin boton de RAM-->
               
             </ul>
@@ -59,9 +59,10 @@
             </ul>
             {% endif %}
             <div class="navbar-nav" style="margin-right: 70px;">
-              <form class="form-inline my-2 my-lg-0"><!--Inicio cuadro Buscar-->
-                  <input class="form-control mr-sm-2" id="buscador" value="" type="search" placeholder="Buscar" aria-label="Search">
-                  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+              <form class="form-inline my-2 my-lg-0" method="POST" action="{% url 'buscar' %}"><!--Inicio cuadro Buscar-->
+                {% csrf_token %}
+                  <input class="form-control mr-sm-2" name="txtBuscar" value="" type="search" placeholder="Buscar" aria-label="Search">
+                  <button class="btn btn-outline-success my-2 my-sm-0" name="btnBuscar" type="submit">Buscar</button>
               </form><!--Fin cuadro Buscar-->
               {% if user.is_authenticated %}
               <p style="color:white; margin: 10px">Bienvenido: {{ user.username }}</p>
@@ -98,12 +99,12 @@
           </div>
         </div>
       </nav><!--Fin del Navbar-->
-        <br><br>
+      <br>
 
         <!--Contenido dinamico las otras paginas heredan todo, pero solo se cambia lo que esté dentro de los block-->
         
         {%  block tituloPagina %}
-        
+
         {% endblock %}
         <br><br>
         {% block contenido %}

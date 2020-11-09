@@ -36,11 +36,13 @@ def plantilla(request):
     return render(request, 'plantillaBase.html', {})
 
 def buscarPorId(modelo, id):
-	try:
-		item = modelo.objects.get(pk=id)
-	except:
-		item = {}
-	return item
+    try:
+        item = modelo.objects.get(pk=id)
+    except:
+        item = {}
+    return item
+
+
 
 def marca(request):
     mensaje=""
@@ -49,7 +51,7 @@ def marca(request):
 
     if request.method == "POST":
         id      = int("0" + request.POST["txtId"])
-        nombre  = request.POST["txtNombre"]
+        nombre  = request.POST["txtNombre"].upper()
         activo  = request.POST.get("chkActivo") == "1"
 
         if 'btnGrabar' in request.POST:
@@ -92,7 +94,7 @@ def categoria(request):
     errores = {}
     if request.method == "POST":
         id      = int("0" + request.POST["txtId"])
-        nombre  = request.POST["txtNombre"]
+        nombre  = request.POST["txtNombre"].upper()
         activo  = request.POST.get("chkActivo") == "1"
         if 'btnGrabar' in request.POST:
             if nombre == "":
@@ -184,7 +186,20 @@ def producto(request):
                         mensaje = "La solicitud fue realizada con éxito"
                     item = {}
             elif 'btnListar' in request.POST: # como filtrar con el ORM
-                lista = Producto.objects.filter(nombre__contains = nombre)
+                if idCategoria > 0:
+                    lista = Producto.objects.filter(categoria_id = buscarPorId(Categoria, idCategoria))
+                elif idMarca > 0:
+                    lista = Producto.objects.filter(marca_id = buscarPorId(Marca, idMarca))
+                elif descripcion != "":
+                    lista = Producto.objects.filter(descripcion__contains = descripcion)
+                elif nombre != "":
+                    lista = Producto.objects.filter(nombre__contains = nombre)
+                elif precioCosto != "":
+                    lista = Producto.objects.filter(precioCosto__contains = precioCosto)
+                elif precioVenta != "":
+                    lista = Producto.objects.filter(precioVenta__contains = precioVenta)
+                else:
+                    lista = Producto.objects.all()
             elif 'btnBuscar' in request.POST:
                 item = buscarPorId(Producto, id)
                 if not isinstance(item, Producto):
@@ -202,7 +217,31 @@ def producto(request):
 
 def inicio(request):
     producto = Producto.objects.all()
+    if request.method == "POST":
+        buscar = request.POST['txtBuscar'].upper()
+        producto = Producto.objects.filter(nombre__contains=buscar)
     return render(request, 'index.html',{"productos":producto})
+
+def buscarBase(request):
+    producto = Producto.objects.all()
+    if request.method == "POST":
+        buscar = request.POST['txtBuscar'].upper()
+        producto = Producto.objects.filter(nombre__contains= buscar )
+    return render(request, 'index.html',{"productos":producto})
+
+def tarjetaAMD(request):
+    producto = Producto.objects.filter(nombre__contains="AMD" )
+    return render(request, 'producto/tarjetasAMD.html', {'productos':producto})
+
+def tarjetaNVIDIA(request):
+    producto = Producto.objects.filter(nombre__contains="NVIDIA" )
+    return render(request, 'producto/tarjetasNVIDIA.html', {'productos':producto})
+
+def memoriaRAM(request):
+    nombre = 'RAM'
+    producto = Producto.objects.filter(descripcion__contains = 'DDR4')
+    return render(request, 'producto/RAM.html', {'productos':producto})
+
 
 
 

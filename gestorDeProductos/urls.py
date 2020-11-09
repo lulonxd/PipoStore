@@ -12,6 +12,11 @@ urlpatterns = [
     path('', views.inicio, name='inicio'),
     path('registro/', views.registro, name='registro'),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('AMD/', views.tarjetaAMD, name='AMD'),
+    path('NVIDIA/', views.tarjetaNVIDIA, name='NVIDIA'),
+    path('buscar/', views.buscarBase, name='buscar'),
+    path('RAM/', views.memoriaRAM, name='RAM'),
+
 ]
 
     
