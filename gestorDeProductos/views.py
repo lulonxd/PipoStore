@@ -4,20 +4,15 @@ from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password  
 from django.conf import settings
-from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login, validators
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 
 # Create your views here.
 
-def logout(request):
-    return render(request, 'registration/logout.html', {})
-
-
-
 def registro(request):
     mensaje = ""
+    response = redirect('/accounts/login/')
     if request.method == "POST":
         usuario	= request.POST["txtUsuario"]
         nombre  = request.POST['txtNombre']
@@ -32,8 +27,9 @@ def registro(request):
         except ValidationError as e:
             mensaje = "Porfavor Ingrese un correo válido"
         else:
-            User.objects.create(username=nombre,first_name=nombre,last_name=apellido , email=correo, password=make_password(clave))
-            return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
+            User.objects.create(username=usuario,first_name=nombre,last_name=apellido , email=correo, password=make_password(clave))
+            mensaje = "Usuario registrado correctamente"
+            return response
     return render(request, 'registration/registro.html', {'mensaje':mensaje})	
 
 def plantilla(request):
@@ -54,7 +50,7 @@ def marca(request):
     if request.method == "POST":
         id      = int("0" + request.POST["txtId"])
         nombre  = request.POST["txtNombre"]
-        activo  = request.POST.get("chkActivo") is "1"
+        activo  = request.POST.get("chkActivo") == "1"
 
         if 'btnGrabar' in request.POST:
             if nombre == "":
@@ -97,7 +93,7 @@ def categoria(request):
     if request.method == "POST":
         id      = int("0" + request.POST["txtId"])
         nombre  = request.POST["txtNombre"]
-        activo  = request.POST.get("chkActivo") is "1"
+        activo  = request.POST.get("chkActivo") == "1"
         if 'btnGrabar' in request.POST:
             if nombre == "":
                 mensaje = "Porfavor Ingrese Nombre de Categoria"
@@ -205,9 +201,9 @@ def producto(request):
     return render(request, 'producto/producto.html', context)
 
 def inicio(request):
-    lista = {}
-    productos = Producto.objects.all()
-    return render(request, 'index.html', {"productos":productos})
+    producto = Producto.objects.all()
+    return render(request, 'index.html',{"productos":producto})
+
 
 
 

@@ -1,5 +1,5 @@
 from django.db import models
-from django import forms
+
 from django.contrib.auth.models import User
 
 
@@ -29,7 +29,7 @@ class Producto(models.Model):
     stock           = models.IntegerField()
     precioCosto     = models.IntegerField()
     precioVenta     = models.IntegerField()
-    imagen          = models.ImageField(upload_to='productos/')
+    imagen          = models.ImageField(upload_to='productos/', blank=True)
 
 
     def __str__(self):

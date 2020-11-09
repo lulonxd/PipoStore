@@ -63,15 +63,23 @@
                   <input class="form-control mr-sm-2" id="buscador" value="" type="search" placeholder="Buscar" aria-label="Search">
                   <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
               </form><!--Fin cuadro Buscar-->
+              {% if user.is_authenticated %}
+              <p style="color:white; margin: 10px">Bienvenido: {{ user.username }}</p>
+              {% else %}
+              <p style="color:white; margin: 10px"></p>
+              {% endif %}
               <div>
+                
               {% if user.is_authenticated %}
                   <li class="nav-item dropdown">
                       <a class="nav-link dropdown-toggle nav-link" role="button" data-toggle="dropdown" aria-haspopup="true"><img src="{% static 'images/user3.ico' %}" style="width: 30px; height: 30px;" ></a>
-                        <div tabindex="-1" style="position: absolute; will-change: transform; top: 35px; left: 0px;">
+                        
+                      <div tabindex="-1" style="position: absolute; will-change: transform; top: 35px; left: 0px;">
                           <div class="dropdown-menu" aria-labelledby="navbarDropdown" >
-                            <a class="dropdown-item navbar-dropdown-link" href="{% url 'logout' %}?next=/inicio">salir</a><!--Item 1 dropdown-->
+                            <a class="dropdown-item navbar-dropdown-link" href="{% url 'logout' %}?next=">salir</a><!--Item 1 dropdown-->
                           </div>
                         </div>
+                        
                   </li>
               {% else %}
                   <li class="nav-item dropdown"><!--Inicio de DropDown login-->
@@ -88,9 +96,7 @@
               </div>
               {% endif %}
           </div>
-            
-            
-          </div>
+        </div>
       </nav><!--Fin del Navbar-->
         <br><br>
 

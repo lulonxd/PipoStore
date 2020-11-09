@@ -1,11 +1,8 @@
 {% extends 'plantillaBase.html' %}
-
 {% load crispy_forms_tags %}
-
 {% block title %}
     <title>PipoStore - Inicio de Sesión</title>
 {% endblock %}
-
 {% block contenido %}
 {% if user.is_authenticated %}
 <div class="row justify-content-center">

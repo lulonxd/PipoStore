@@ -32,6 +32,13 @@ $ (function()
             $('.txtPass').focus();//focus al input contraseña luego del mensaje
             return false;//para que deje de ejecutar el codigo luego del mensaje
         }
+
+        if($('.imagen').val()=="")//validación de input vacío
+        {
+            alert('Seleccione una imagen');
+
+            return false;//para que deje de ejecutar el codigo luego del mensaje
+        }
         
        
         

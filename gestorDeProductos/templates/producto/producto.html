@@ -6,7 +6,7 @@
 
 
 {% block tituloPagina %}
-{% if user.is_authenticated and user.is_staff %}
+{% if user.is_authenticated and user.is_staff or user.is_superuser %}
 <div class="row justify-content-center">
     <h1>Registro de Producto</h1>
 </div>
@@ -60,12 +60,15 @@
 				Marca
 			</div>
 			<div class="col-12 col-sm-6">
-				<select name="cmbMarca" class="form-control"  >
+				<select name="cmbMarca" class="form-control">
 					<option value="">Seleccionar</option>
 {% if cmbMarca %}
 	{% for fila in cmbMarca %}
 					<option value="{{ fila.id }}">{{ fila.nombre }}</option>
 	{% endfor %}
+{% endif %}
+{% if buscar %}
+					<option value="{{ item.marca }}">{{ item.nombre }}</option>
 {% endif %}
 				</select>
 			</div>
@@ -126,24 +129,30 @@
 				<input type="text" name="txtPrecioVenta" class="form-control" value="{{ item.precioVenta }}"  >
 			</div>
 		</div>
+		{% if user.is_authenticated and user.is_superuser %}
 		<div class="row justify-content-center">
 			<div class="col-12 col-sm-2">
 				Imagen
 			</div>
 			<div class="col-12 col-sm-6">
-				<input type="file" name="imagen" class="form-control"  >
+				<input type="file" name="imagen" class="form-control" value="{{ item.imagen }}" >
 			</div>
 		</div>
+		{% endif %}
 		<div class="row justify-content-center">
 			<div class="col-12 col-sm-2">
 				Opciones
 			</div>
 			<div class="col-12 col-sm-6">
+				{% if user.is_authenticated and user.is_superuser %}
 				<input type="submit" name="btnGrabar" class="btn btn-danger"  value="Grabar">
+				{% endif %}
 				<input type="submit" name="btnListar" class="btn btn-success" value="Listar">
+				{% if user.is_authenticated and user.is_superuser %}
 {% if item.id > 0 %}
 				<input type="submit" name="btnEliminar" class="btn btn-danger float-right" value="Eliminar">
 {% endif %}
+				{% endif %}
 			</div>
 		</div>		
 	</form>
@@ -152,9 +161,10 @@
 {% endblock %}
 <br>
 {% block listado %}
+{% if user.is_staff %}
 {% if lista %}
 	<div class="row justify-content-center">
-		<div>
+		<div class="col-12 col-md-8">
 			<div class="table-responsive">
 				<table class="table">
 					<thead class="table-active">
@@ -166,6 +176,7 @@
 						<th>Stock</th>
 						<th>PrecioCosto</th>
 						<th>PrecioVenta</th>
+						<th>Imagen</th>
 					</thead>
 					<tbody>
 {% for fila in lista %}
@@ -178,6 +189,7 @@
 							<td>{{ fila.stock }}</td>
 							<td>{{ fila.precioCosto }}</td>
 							<td>{{ fila.precioVenta }}</td>
+							<td><img src=" {{fila.imagen.url }}" style="width: 70px;"></td>
 						</tr>	
 {% endfor %}
 					</tbody>
@@ -186,7 +198,8 @@
 		</div>	
 	</div>
 	
-	
+{% endif %}
+
 {% endif %}
 
 {% endblock %}
