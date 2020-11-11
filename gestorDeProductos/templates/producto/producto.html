@@ -137,7 +137,7 @@
 				Imagen
 			</div>
 			<div class="col-12 col-sm-6">
-				<input type="file" name="imagen" class="form-control" value="{{ item.imagen }}" required>
+				<input type="file" name="imagen" class="imagen form-control" value="{{ item.imagen }}">
 			</div>
 		</div>
 		{% endif %}
@@ -147,7 +147,7 @@
 			</div>
 			<div class="col-12 col-sm-6">
 				{% if user.is_authenticated and user.is_superuser %}
-				<input type="submit" name="btnGrabar" class="btn btn-danger"  value="Grabar">
+				<input type="submit" name="btnGrabar" class="btnGrabar btn btn-danger"  value="Grabar">
 				{% endif %}
 				<input type="submit" name="btnListar" class="btn btn-success" value="Listar">
 				{% if user.is_authenticated and user.is_superuser %}
