@@ -1,5 +1,6 @@
 {% extends "plantillaBase.html" %}
 {% load static %}
+
 {% block title %}
 <title>PipoGestión - Registro de Producto</title>
 {% endblock %}
@@ -40,6 +41,7 @@
 	</div>
 {% endif %}
 {% if user.is_authenticated and user.is_staff %}
+<script src="{% static 'js/producto.js' %}"></script>
 <div class="justify-content-center">
 	<form action="{% url 'producto' %}" method="POST" enctype="multipart/form-data" >
 		{% csrf_token %}
@@ -49,7 +51,7 @@
 				Id
 			</div>
 			<div class="col-8 col-md-4">
-				<input type="text" name="txtId" class="form-control" value="{{ item.id }}">
+				<input type="text" name="txtId" class="txtId form-control" value="{{ item.id }}">
 			</div>
 			<div class="col-4 col-md-2">
 				<input type="submit" name="btnBuscar" class="btn btn-success btn-block" value="Buscar">
@@ -93,7 +95,7 @@
 				Nombre
 			</div>
 			<div class="col-12 col-sm-6">
-				<input type="text" name="txtNombre" class="form-control" value="{{ item.nombre }}" >
+				<input type="text" name="txtNombre" class="txtNombre form-control" value="{{ item.nombre }}" >
 			</div>
 		</div>
 		<div class="row justify-content-center">
@@ -101,7 +103,7 @@
 				Descripcion
 			</div>
 			<div class="col-12 col-sm-6">
-				<input type="text" name="txtDescripcion" class="form-control" value="{{ item.descripcion }}"  >
+				<input type="text" name="txtDescripcion" class="txtDescripcion form-control" value="{{ item.descripcion }}"  >
 			</div>
 		</div>
 
@@ -110,7 +112,7 @@
 				Stock
 			</div>
 			<div class="col-12 col-sm-6">
-				<input type="text" name="txtStock" class="form-control" value="{{ item.stock }}"  >
+				<input type="text" name="txtStock" class="txtStock form-control" value="{{ item.stock }}"  >
 			</div>
 		</div>
 		<div class="row justify-content-center">
@@ -118,7 +120,7 @@
 				PrecioCosto
 			</div>
 			<div class="col-12 col-sm-6">
-				<input type="text" name="txtPrecioCosto" class="form-control" value="{{ item.precioCosto }}"  >
+				<input type="text" name="txtPrecioCosto" class="txtPrecioCosto form-control" value="{{ item.precioCosto }}"  >
 			</div>
 		</div>
 		<div class="row justify-content-center">
@@ -126,7 +128,7 @@
 				PrecioVenta
 			</div>
 			<div class="col-12 col-sm-6">
-				<input type="text" name="txtPrecioVenta" class="form-control" value="{{ item.precioVenta }}"  >
+				<input type="text" name="txtPrecioVenta" class="txtPrecioVenta form-control" value="{{ item.precioVenta }}"  >
 			</div>
 		</div>
 		{% if user.is_authenticated and user.is_superuser %}
@@ -135,7 +137,7 @@
 				Imagen
 			</div>
 			<div class="col-12 col-sm-6">
-				<input type="file" name="imagen" class="form-control" value="{{ item.imagen }}" >
+				<input type="file" name="imagen" class="form-control" value="{{ item.imagen }}" required>
 			</div>
 		</div>
 		{% endif %}

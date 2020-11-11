@@ -50,39 +50,43 @@ def marca(request):
     item={}
 
     if request.method == "POST":
-        id      = int("0" + request.POST["txtId"])
+        idMarca      = int("0" + request.POST["txtId"])
         nombre  = request.POST["txtNombre"].upper()
         activo  = request.POST.get("chkActivo") == "1"
 
         if 'btnGrabar' in request.POST:
             if nombre == "":
                 mensaje = "Porfavor Ingrese Nombre de Marca"
-            elif id < 1:
+            elif idMarca < 1:
                 Marca.objects.create(nombre=nombre, activo=activo)    
             else:
-                item = Marca.objects.get(pk = id)
-                item.nombre = nombre
-                item.activo = activo
-                item.save()
-                item = {}
-                mensaje= "Datos Guardados Correctamente"
+                item = buscarPorId(Marca, idMarca)
+                if not isinstance(item, Marca):
+                    mensaje = "No se debe ingresar ID"
+                else:
+                    item.id = idMarca
+                    item.nombre = nombre
+                    item.activo = activo
+                    item.save()
+                    item = {}
+                    mensaje= "Datos Guardados Correctamente"
         elif 'btnBuscar' in request.POST:
-            item = Marca.objects.get(pk = id)
-
-            if not isinstance(item, Marca):
-                mensaje = "Registro no encontrado"
-                item = {}
-        
+            if idMarca == "":
+                mensaje = "La id debe ser un número"
+            else:
+                item = buscarPorId(Marca, idMarca)
+                if not isinstance(item, Marca):
+                    mensaje = "Registro no encontrado"
+                    item = {}
         elif 'btnListar' in request.POST:
             lista = Marca.objects.all()
-        
         elif 'btnEliminar' in request.POST:
-            item = Marca.objects.get(pk = id)
-
+            item = Marca.objects.get(pk = idMarca)
             if isinstance(item, Marca):
                 item.delete()
                 mensaje = "Registro eliminado"
                 item = {}
+        
     
     contexto = {'mensaje':mensaje, 'lista' : lista, 'item':item}
     return render(request, 'producto/marca.html', contexto)
@@ -109,8 +113,7 @@ def categoria(request):
                 item = {}
                 mensaje= "Datos Guardados Correctamente"
         elif 'btnBuscar' in request.POST:
-            item = Categoria.objects.get(pk = id)
-
+            item = buscarPorId(Categoria, id)
             if not isinstance(item, Categoria):
                 mensaje = "Registro no encontrado"
                 item = {}
@@ -142,8 +145,8 @@ def producto(request):
             id          = int("0" + request.POST["txtId"])
             idMarca 	= int("0" + request.POST['cmbMarca'])
             idCategoria = int("0" + request.POST['cmbCategoria'])
-            nombre 		= request.POST['txtNombre']
-            descripcion = request.POST['txtDescripcion']
+            nombre 		= request.POST['txtNombre'].upper()
+            descripcion = request.POST['txtDescripcion'].upper()
             stock 		= request.POST['txtStock']
             precioCosto = request.POST['txtPrecioCosto']
             precioVenta	= request.POST['txtPrecioVenta']

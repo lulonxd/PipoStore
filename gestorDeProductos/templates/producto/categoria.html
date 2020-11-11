@@ -1,5 +1,5 @@
 {% extends "plantillaBase.html" %}
-
+{% load static %}
 {% block title %}
 <title>Pipo Store - Categorias</title>
 {% endblock %}
@@ -29,6 +29,7 @@
 	</div>
 {% endif %}
 {% if user.is_authenticated and user.is_staff %}
+<script src="{% static 'js/categoria.js' %}"></script>
 <form action="{% url 'categoria' %}" method="POST">
     {% csrf_token %}
     <div class="row justify-content-center">
@@ -36,7 +37,7 @@
             Id
         </div>
         <div class="col-8 col-md-4">
-            <input type="text" name="txtId" class="form-control" value="{{ item.id }}">
+            <input type="text" name="txtId" class="txtId form-control" value="{{ item.id }}">
         </div>
         <div class="col-4 col-md-2">
             <input type="submit" name="btnBuscar" class="btn btn-success btn-block" value="Buscar">
@@ -67,11 +68,15 @@
             Opciones
         </div>
         <div class="col-12 col-md-6">
-            <input type="submit" name="btnGrabar" class="btn btn-success" value="Grabar">
-            <input type="submit" name="btnListar" class="btn btn-success" value="Listar">
+            {% if user.is_authenticated and user.is_superuser %}
+				<input type="submit" name="btnGrabar" class="btn btn-danger"  value="Grabar">
+				{% endif %}
+				<input type="submit" name="btnListar" class="btn btn-success" value="Listar">
+				{% if user.is_authenticated and user.is_superuser %}
 {% if item.id > 0 %}
-            <input type="submit" name="btnEliminar" class="btn btn-danger" value="Eliminar">
+				<input type="submit" name="btnEliminar" class="btn btn-danger float-right" value="Eliminar">
 {% endif %}
+				{% endif %}
         </div>
     </div>
 </form>
